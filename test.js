@@ -307,7 +307,7 @@ function testPathValueSimple() {
   });
 }
 
-function testPathValueBreadthFirstNotification() {
+function disabledTestPathValueBreadthFirstNotification() {
   var model = {};
 
   var notificationSequence = '';
