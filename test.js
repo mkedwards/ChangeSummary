@@ -315,7 +315,7 @@ function testPathValueBreadthFirstNotification() {
     return function(obj) {
       notificationSequence += obj.val;
     };
-  };
+  }
 
   observer.observePathValue(model, 'data.a.c');
   observer.observePathValue(model, 'data.a.d');
@@ -457,7 +457,7 @@ function testPathObservation() {
 
   // Try to stop observing at different path. Scopes are different,
   // so this should have no effect.
-  observer.unobservePathValue(model.a, 'b.c')
+  observer.unobservePathValue(model.a, 'b.c');
   model.a.b.c = 'hello. scopes are different';
   assertSummary({
     object: model,
