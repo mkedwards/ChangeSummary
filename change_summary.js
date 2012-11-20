@@ -208,23 +208,6 @@
 
     var objectTrackers = new Map;
 
-    function getObjectTracker(obj) {
-      var tracker = objectTrackers.get(obj);
-      if (!tracker) {
-        tracker = new ObjectTracker(obj);
-        tracker.internal = internal;
-        objectTrackers.set(obj, tracker);
-        Object.observe(obj, internalCallback);
-      }
-
-      return tracker;
-    }
-
-    function removeObjectTracker(obj) {
-      objectTrackers.delete(obj);
-      Object.unobserve(obj, internalCallback);
-    }
-
     function internalCallback(records) {
       if (!records || !records.length) {
         console.error('Object.observe callback called with no records');
@@ -259,6 +242,23 @@
           summaries = undefined;
         }
       }
+    }
+
+    function getObjectTracker(obj) {
+      var tracker = objectTrackers.get(obj);
+      if (!tracker) {
+        tracker = new ObjectTracker(obj);
+        tracker.internal = internal;
+        objectTrackers.set(obj, tracker);
+        Object.observe(obj, internalCallback);
+      }
+
+      return tracker;
+    }
+
+    function removeObjectTracker(obj) {
+      objectTrackers.delete(obj);
+      Object.unobserve(obj, internalCallback);
     }
 
     // Register callback to assign delivery order.
