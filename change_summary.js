@@ -231,7 +231,7 @@
         return;
       }
 
-      try {
+      {
         var objectChangeRecordsMap = collateRecords(records);
         var dirtyTrackers = new Set;
 
@@ -258,9 +258,6 @@
           callback(summaries);
           summaries = undefined;
         }
-
-      } catch (ex) {
-        console.error(ex);
       }
     }
 
