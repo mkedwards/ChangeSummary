@@ -244,7 +244,12 @@
       }
     };
 
-    function getObjectTracker(obj) {
+    // Register callback to assign delivery order.
+    var register = {};
+    Object.observe(register, internalCallback);
+    Object.unobserve(register, internalCallback);
+
+    var getObjectTracker = function(obj) {
       var tracker = objectTrackers.get(obj);
       if (!tracker) {
         tracker = new ObjectTracker(obj);
@@ -254,17 +259,12 @@
       }
 
       return tracker;
-    }
+    };
 
-    function removeObjectTracker(obj) {
+    var removeObjectTracker = function(obj) {
       objectTrackers.delete(obj);
       Object.unobserve(obj, internalCallback);
-    }
-
-    // Register callback to assign delivery order.
-    var register = {};
-    Object.observe(register, internalCallback);
-    Object.unobserve(register, internalCallback);
+    };
 
     this.observe = function(obj) {
       if (!isObject(obj))
