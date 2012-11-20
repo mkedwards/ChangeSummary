@@ -314,7 +314,7 @@ function testPathValueBreadthFirstNotification() {
   function createCallback() {
     return function(obj) {
       notificationSequence += obj.val;
-    }
+    };
   };
 
   observer.observePathValue(model, 'data.a.c');
@@ -323,7 +323,7 @@ function testPathValueBreadthFirstNotification() {
   observer.observePathValue(model, 'data.b.f');
   observer.observePathValue(model, 'data.b');
   observer.observePathValue(model, 'data.a');
-  observer.observePathValue(model, 'data')
+  observer.observePathValue(model, 'data');
   observer.observePropertySet(model);
 
   model.data = {
@@ -335,7 +335,7 @@ function testPathValueBreadthFirstNotification() {
       e: 3,
       f: 4
     }
-  }
+  };
 
   assertSummary({
     object: model,
