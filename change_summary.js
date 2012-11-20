@@ -208,7 +208,7 @@
 
     var objectTrackers = new Map;
 
-    function internalCallback(records) {
+    var internalCallback = function(records) {
       if (!records || !records.length) {
         console.error('Object.observe callback called with no records');
         return;
@@ -242,7 +242,7 @@
           summaries = undefined;
         }
       }
-    }
+    };
 
     function getObjectTracker(obj) {
       var tracker = objectTrackers.get(obj);
