@@ -310,11 +310,11 @@
     // FIXME: Think about how things will react if observe/unobserve are called during processing.
 
     var internal = {
-      observeProperty: function(obj, prop, pathValue) {
+      observeProperty: function(prop, pathValue, obj) {
         getObjectTracker(obj, internalCallback).observeProperty(prop, pathValue);
       },
 
-      unobserveProperty: function(obj, prop, pathValue) {
+      unobserveProperty: function(prop, pathValue, obj) {
         var tracker = objectTrackers.get(obj);
         if (!tracker)
           return;
