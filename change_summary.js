@@ -249,28 +249,28 @@
     Object.observe(register, internalCallback);
     Object.unobserve(register, internalCallback);
 
-    var getObjectTracker = function(obj) {
+    var getObjectTracker = function(obj, cb) {
       var tracker = objectTrackers.get(obj);
       if (!tracker) {
         tracker = new ObjectTracker(obj);
         tracker.internal = internal;
         objectTrackers.set(obj, tracker);
-        Object.observe(obj, internalCallback);
+        Object.observe(obj, cb);
       }
 
       return tracker;
     };
 
-    var removeObjectTracker = function(obj) {
+    var removeObjectTracker = function(obj, cb) {
       objectTrackers.delete(obj);
-      Object.unobserve(obj, internalCallback);
+      Object.unobserve(obj, cb);
     };
 
     this.observe = function(obj) {
       if (!isObject(obj))
         throw Error('Invalid attempt to observe non-object: ' + obj);
 
-      getObjectTracker(obj).observeAll = true;
+      getObjectTracker(obj, internalCallback).observeAll = true;
     };
 
     this.unobserve = function(obj) {
@@ -283,14 +283,14 @@
 
       tracker.observeAll = undefined;
       if (!tracker.observePropertySet && !tracker.propertyObserverCount)
-        removeObjectTracker(obj);
+        removeObjectTracker(obj, internalCallback);
     };
 
     this.observePropertySet = function(obj) {
       if (!isObject(obj))
         throw Error('Invalid attempt to observe non-object: ' + obj);
 
-      getObjectTracker(obj).observePropertySet = true;
+      getObjectTracker(obj, internalCallback).observePropertySet = true;
     };
 
     this.unobservePropertySet = function(obj) {
@@ -303,7 +303,7 @@
 
       tracker.observePropertySet = undefined;
       if (!tracker.observeAll && !tracker.propertyObserverCount)
-        removeObjectTracker(obj);
+        removeObjectTracker(obj, internalCallback);
     };
 
     // FIXME: Notate and check all places where model values are retrieved and script may run.
@@ -311,7 +311,7 @@
 
     var internal = {
       observeProperty: function(obj, prop, pathValue) {
-        getObjectTracker(obj).observeProperty(prop, pathValue);
+        getObjectTracker(obj, internalCallback).observeProperty(prop, pathValue);
       },
 
       unobserveProperty: function(obj, prop, pathValue) {
@@ -321,7 +321,7 @@
 
         tracker.unobserveProperty(prop, pathValue);
         if (!tracker.propertyObserverCount && !tracker.observePropertySet && !tracker.observeAll)
-          removeObjectTracker(obj);
+          removeObjectTracker(obj, internalCallback);
       }
     };
 
@@ -333,7 +333,7 @@
       if (path.length == 0)
         throw Error('Invalid path: ' + pathString);
 
-      var tracker = getObjectTracker(obj);
+      var tracker = getObjectTracker(obj, internalCallback);
       if (!tracker.pathValues)
         tracker.pathValues = {};
 
