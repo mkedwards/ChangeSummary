@@ -107,7 +107,9 @@ function applySplices(orig, copy) {
         addIndex++;
       }
 
+      console.log("splice.apply(" + JSON.stringify(copy) + ", " + JSON.stringify(spliceArgs) + ")");
       Array.prototype.splice.apply(copy, spliceArgs);
+      console.log("    resulted in: " + JSON.stringify(copy));
     });
   }
 
@@ -1111,13 +1113,21 @@ function randomArrayOperation(arr) {
   var operation = operationList[randInt(0, operationList.length - 1)];
   if (operation == 'delete') {
     var index = randInt(0, arr.length - 1);
+    console.log("deleting index " + index + " from " + JSON.stringify(arr));
     delete arr[index];
+    console.log("    resulted in: " + JSON.stringify(arr));
   } else if (operation == 'update') {
-    arr[randInt(0, arr.length - 1)] = randInt(0, valMax);
+    var index = randInt(0, arr.length - 1);
+    var newval = randInt(0, valMax);
+    console.log("updating index " + index + " to " + newval + " in " + JSON.stringify(arr));
+    arr[index] = newval);
+    console.log("    resulted in: " + JSON.stringify(arr));
   } else {
     var opArgs = operations[operation]();
     var func = arr[operation];
+    console.log("applying " + operation + "(" + JSON.stringify(arr) + ", " + JSON.stringify(opArgs) + ")");
     func.apply(arr, opArgs);
+    console.log("    resulted in: " + JSON.stringify(arr));
   }
 }
 
