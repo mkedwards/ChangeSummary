@@ -746,7 +746,7 @@
 
       // "Addition" rows. Initialize null column.
       for (var i = 0; i < distances.length; i++) {
-        distances[i] = new Array(currentLength + 1)
+        distances[i] = new Array(currentLength + 1);
         distances[i][0] = i;
       }
 
@@ -757,7 +757,7 @@
 
       for (var i = 1; i < distances.length; i++) {
         for (var j = 1; j < distances[i].length; j++) {
-          if (old[i - 1] === current[currentIndex + j - 1])
+          if ((currentIndex + j - 1 < currentLength) && (old[i - 1] === current[currentIndex + j - 1]))
             distances[i][j] = distances[i - 1][j - 1];
           else
             distances[i][j] = Math.min(distances[i - 1][j] + 1,      // 1 Edit
